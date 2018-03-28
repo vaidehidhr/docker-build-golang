@@ -13,7 +13,7 @@ The image registry used in this particular example is [Docker Hub](https://hub.d
 
 Open a command window, clone this repository and `cd` into it.
 ```
-git clone https://github.com/nigeldeakin/docker-build-golang.git
+git clone https://github.com/wercker/docker-build-golang.git
 cd docker-build-golang
 ```
 
