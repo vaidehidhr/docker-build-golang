@@ -150,17 +150,6 @@ Hello World!
 ```
 Finally press Control+C in the first window to terminate the application and remove the container.
 
-# What's next?
-
-In this example you've used the wercker CLI and the `internal/docker-build` and `internal/docker-push` step to create a docker image from a Dockerfile and push it to an image registry.
-
-A typical Wercker pipeline for building an image from a Dockerfile would 
-* use `internal/docker-build` to build an image
-* use `internal/docker-run` to start the image in a new container
-* test the image
-* use `internal/docker-kill` to terminate the container
-* use `internal/docker-push` to publish the new image to your chosen docker image registry.
-
 ---
 Sign up for Wercker: http://www.wercker.com
 
