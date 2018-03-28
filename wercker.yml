@@ -1,0 +1,17 @@
+build:
+  box: google/golang
+  steps:
+    # Test the project
+    - script:
+        name: Run tests
+        code: go test ./...     
+    - internal/docker-build: 
+        dockerfile: Dockerfile 
+        image-name: my-new-image # name used to refer to this image until it's pushed
+    - internal/docker-push: 
+        image-name: my-new-image
+        username: $USERNAME # Docker Hub username. When using CLI, set using "export X_USERNAME=<username>"  
+        password: $PASSWORD # Docker Hub password. When using CLI, set using "export X_PASSWORD=<password>" 
+        registry: https://hub.docker.com
+        repository: $USERNAME/docker-build-golang
+        tag: latest
