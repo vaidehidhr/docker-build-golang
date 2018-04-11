@@ -106,8 +106,7 @@ build:
         image: my-new-image
         username: $USERNAME # Docker Hub username. When using CLI, set using "export X_USERNAME=<username>"  
         password: $PASSWORD # Docker Hub password. When using CLI, set using "export X_PASSWORD=<password>" 
-        registry: https://hub.docker.com
-        repository: $USERNAME/docker-build-golang
+        repository: docker.io/$USERNAME/docker-build-golang
         tag: latest
 ```
 This defines a Wercker pipeline called `build` that 
