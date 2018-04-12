@@ -97,21 +97,43 @@ build:
   steps:
     # Test the project
     - script:
-        name: Run tests
+        name: Unit tests
         code: go test ./...     
     - internal/docker-build: 
         dockerfile: Dockerfile 
-        tag: my-new-image # temporary tag used to refer to this image in a subsequent step
-    - internal/docker-push: 
+        image-name: my-new-image # name used to refer to this image until it's pushed   
+    - internal/docker-run:
         image: my-new-image
+        name: myTestContainer     
+    - script: 
+        name: Test the container
+        code: |
+            if curlOutput=`curl -s myTestContainer:5000`; then 
+                if [ "$curlOutput" == "Hello World!!" ]; then
+                    echo "Test passed: container gave expected response"
+                else
+                    echo "Test failed: container gave unexpected response: " $curlOutput
+                    exit 1
+                fi   
+            else 
+                echo "Test failed: container did not respond"
+                exit 1
+            fi        
+    - internal/docker-kill:
+        name: myTestContainer               
+    - internal/docker-push: 
+        image-name: my-new-image
         username: $USERNAME # Docker Hub username. When using CLI, set using "export X_USERNAME=<username>"  
         password: $PASSWORD # Docker Hub password. When using CLI, set using "export X_PASSWORD=<password>" 
         repository: docker.io/$USERNAME/docker-build-golang
         tag: latest
 ```
 This defines a Wercker pipeline called `build` that 
-* runs the tests 
+* runs the unit tests 
 * uses the `internal/docker-build` step to build the image using the Dockerfile 
+* uses the `internal/docker-run` step to start a container using the newly-built image
+* uses a `script` step to test that the container responds to a HTTP request as expected. If this fails the pipeline will be terminated and the image will not be pushed.
+* uses the `internal/docker-kill` step to terminate the container 
 * uses the `internal/docker-push` step to tag the image and push it to the image registry
 
 When running the wercker CLI the values of `$USERNAME` and `$PASSWORD` are obtained from the environment variables `X_USERNAME` and `X_PASSWORD`.
