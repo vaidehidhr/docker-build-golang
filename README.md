@@ -1,4 +1,4 @@
-# Using Wercker to build an image from a Dockerfile
+# Using  Wercker to build an image from a Dockerfile
 
 This example shows how wercker can be used to build a docker image from a Dockerfile and push it to a image registry.
 
