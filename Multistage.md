@@ -2,7 +2,11 @@
 
 This example also contains a two-stage Dockerfile [Dockerfile-multistage](Dockerfile-multistage) and a corresponding [wercker-multistage.yml](wercker-multistage.yml).
 
-The use of multi-stage Dockerfiles requires Docker 17.05, which is why this is provided as a separate example.
+The use of multi-stage Dockerfiles requires Docker 17.05. 
+To run this example your local Docker daemon must be this version or later.
+
+At the time of writing wercker.com does not support this version of Docker,
+so you cannot yet use `docker-build` in wercker.com with multi-stage Dockerfiles.
 
 ``` Dockerfile
 # Step #1 Run unit tests and build an executable that doesn't require the go librraies
