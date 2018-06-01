@@ -17,12 +17,17 @@ git clone https://github.com/wercker/docker-build-golang.git
 cd docker-build-golang
 ```
 
-# Build, push and run the image using the docker command 
+# Build, run, test and push the image using the docker command 
 
-Before you try using Wercker, let's try building and pushing the image using the docker command directly.
-We will then do exactly the same thing using wercker. 
+Before you try using Wercker, let's run the steps manually to build, run, test and push the image. 
 
-If you like, you can skip this section and go straight on [Build and run the image using wercker](#build-and-run-the-image-using-wercker)
+This involves performing the following manual steps:
+* Use the `docker build` command to build the image.
+* Use the `docker run` command to start it. 
+* Perform a simple test using the `curl` command.
+* Use the `docker push` command to tag the image and push it to the Docker Hub image repository.
+
+If you like, you can skip this section and go straight on to [build, run, test and push the image using Wercker](#build-and-run-the-image-using-wercker)
 
 ## Dockerfile
 
@@ -50,29 +55,15 @@ docker build . -t my-image
 ```
 This will build an image using the Dockerfile in this directory and apply the tag `my-image`.
 
-## Push (using docker command)
+## Run (using docker command)
 
-Before you can push this image to the DockerHub image registry you need to login. Set the following environment variables to hold your Docker Hub user name and password. 
-``` bash
-export X_USERNAME=<dockerhub-username>
-export X_PASSWORD=<dockerhub-password>
-```
-
-Now you can push your image. This involves using `docker login` to set your Docker Hub credentials, `docker tag` to specify where to push it to, and `docker push` to perform the push.
-In the following command, replace 
-``` bash
-docker login -u $X_USERNAME -p $X_PASSWORD
-docker tag my-image $X_USERNAME/docker-build-golang:latest
-docker push $X_USERNAME/docker-build-golang
-```
-
-## Run
-
-Now run the new image
+Now run the new image and test it
 ```
 docker run --rm -p 5000:5000 $X_USERNAME/docker-build-golang
 ```
 This will start your image in the foreground.
+
+## Test
 
 In another command window, access the application 
 ```
@@ -84,9 +75,29 @@ Hello World!
 ```
 Finally press Control+C in the first window to terminate the application and remove the container.
 
-# Build and run the image using wercker 
+## Push (using docker command)
 
-Now let's use Wercker to build an image using the same Dockerfile and push it to the image registry.
+You have tested the new image and confirmed that it works as expected. You can now push it to the DockerHub image registry.
+
+This involves using `docker login` to set your Docker Hub credentials, `docker tag` to specify where to push it to, and `docker push` to perform the push.
+
+Set the following environment variables to hold your Docker Hub user name and password. 
+``` bash
+export X_USERNAME=<dockerhub-username>
+export X_PASSWORD=<dockerhub-password>
+```
+
+Now run the following:
+``` bash
+docker login -u $X_USERNAME -p $X_PASSWORD
+docker tag my-image $X_USERNAME/docker-build-golang:latest
+docker push $X_USERNAME/docker-build-golang
+```
+
+# Build, run, test and push the image using Wercker
+
+Now let's use Wercker to do the same thing.
+Wercker will build an image using the same Dockerfile, run and test the new image, and push it to the image registry.
 
 ## wercker.yml
 
@@ -145,31 +156,13 @@ export X_PASSWORD=<dockerhub-password>
 ```
 Note that when running in wercker.com Wercker provides a secure way to configure and save these variables. 
 
-## Build, tag and push (using wercker CLI)
+## Build, run, test, tag and push (using wercker CLI)
 
 Now run the `build` pipeline in `wercker.yml`:
 ```
 wercker build
 ```
-This will build an image using the Dockerfile in this directory and push it to the image registry.
-
-## Run
-
-As before, run the new image
-```
-docker run --rm -p 5000:5000 $X_USERNAME/docker-build-golang
-```
-This will start your image in the foreground.
-
-In another command window, access the application 
-```
-curl localhost:5000
-```
-this will return
-```
-Hello World!
-```
-Finally press Control+C in the first window to terminate the application and remove the container.
+This will build an image using the Dockerfile in this directory, start the newly-created image, test it, and (if the test is successful) and push the it to the image registry.
 
 ---
 Sign up for Wercker: http://www.wercker.com

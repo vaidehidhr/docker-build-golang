@@ -8,29 +8,28 @@ build:
     - internal/docker-build: 
         dockerfile: Dockerfile 
         image-name: my-new-image # name used to refer to this image until it's pushed   
-    #- internal/docker-run:
-    #    image: my-new-image
-    #    name: myTestContainer     
-    #- script: 
-    #    name: Test the container
-    #    code: |
-    #        if curlOutput=`curl -s myTestContainer:5000`; then 
-    #            if [ "$curlOutput" == "Hello World!!" ]; then
-    #                echo "Test passed: container gave expected response"
-    #            else
-    #                echo "Test failed: container gave unexpected response: " $curlOutput
-    #                exit 1
-    #            fi   
-    #        else 
-    #            echo "Test failed: container did not respond"
-    #            exit 1
-    #        fi        
-    #- internal/docker-kill:
-    #    name: myTestContainer               
+    - internal/docker-run:
+        image: my-new-image
+        name: myTestContainer     
+    - script: 
+        name: Test the container
+        code: |
+            if curlOutput=`curl -s myTestContainer:5000`; then 
+                if [ "$curlOutput" == "Hello World!!" ]; then
+                    echo "Test passed: container gave expected response"
+                else
+                    echo "Test failed: container gave unexpected response: " $curlOutput
+                    exit 1
+                fi   
+            else 
+                echo "Test failed: container did not respond"
+                exit 1
+            fi        
+    - internal/docker-kill:
+        name: myTestContainer               
     - internal/docker-push: 
         image-name: my-new-image
         username: $USERNAME # Docker Hub username. When using CLI, set using "export X_USERNAME=<username>"  
         password: $PASSWORD # Docker Hub password. When using CLI, set using "export X_PASSWORD=<password>" 
-        repository: $USERNAME/docker-build-golang
-        registry: https://hub.docker.com
+        repository: docker.io/$USERNAME/docker-build-golang
         tag: latest
