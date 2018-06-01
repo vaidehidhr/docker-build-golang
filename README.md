@@ -17,17 +17,25 @@ git clone https://github.com/wercker/docker-build-golang.git
 cd docker-build-golang
 ```
 
-# Build, run, test and push the image using the docker command 
+# Build, run, test and push an image using the docker command 
 
-Before you try using Wercker, let's run the steps manually to build, run, test and push the image. 
+Before you try using Wercker, let's go through the manual steps to build, run, test and push a Docker image. 
 
-This involves performing the following manual steps:
-* Use the `docker build` command to build the image.
+You will perform the following manual steps:
+* Use the `docker build` command to build a Docker image.
 * Use the `docker run` command to start it. 
 * Perform a simple test using the `curl` command.
 * Use the `docker push` command to tag the image and push it to the Docker Hub image repository.
 
 If you like, you can skip this section and go straight on to [build, run, test and push the image using Wercker](#build-and-run-the-image-using-wercker)
+
+## Set environment variables
+
+Set the following environment variables to hold your Docker Hub user name and password. 
+``` bash
+export X_USERNAME=<dockerhub-username>
+export X_PASSWORD=<dockerhub-password>
+```
 
 ## Dockerfile
 
@@ -94,7 +102,7 @@ docker tag my-image $X_USERNAME/docker-build-golang:latest
 docker push $X_USERNAME/docker-build-golang
 ```
 
-# Build, run, test and push the image using Wercker
+# Build, run, test and push an image using Wercker
 
 Now let's use Wercker to do the same thing.
 Wercker will build an image using the same Dockerfile, run and test the new image, and push it to the image registry.
