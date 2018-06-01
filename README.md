@@ -37,7 +37,7 @@ export X_USERNAME=<dockerhub-username>
 export X_PASSWORD=<dockerhub-password>
 ```
 
-## Dockerfile
+## Examine the Dockerfile
 
 First of all take a look at [Dockerfile](Dockerfile) in this directory:
 ``` Dockerfile
@@ -81,21 +81,13 @@ this will return
 ```
 Hello World!
 ```
-Finally press Control+C in the first window to terminate the application and remove the container.
+Press Control+C in the first window to terminate the application and remove the container.
 
 ## Push (using docker command)
 
 You have tested the new image and confirmed that it works as expected. You can now push it to the DockerHub image registry.
 
 This involves using `docker login` to set your Docker Hub credentials, `docker tag` to specify where to push it to, and `docker push` to perform the push.
-
-Set the following environment variables to hold your Docker Hub user name and password. 
-``` bash
-export X_USERNAME=<dockerhub-username>
-export X_PASSWORD=<dockerhub-password>
-```
-
-Now run the following:
 ``` bash
 docker login -u $X_USERNAME -p $X_PASSWORD
 docker tag my-image $X_USERNAME/docker-build-golang:latest
@@ -105,9 +97,9 @@ docker push $X_USERNAME/docker-build-golang
 # Build, run, test and push an image using Wercker
 
 Now let's use Wercker to do the same thing.
-Wercker will build an image using the same Dockerfile, run and test the new image, and push it to the image registry.
+We'll run a pipeline that will build an image using the same Dockerfile, run and test the new image, and push it to the image registry.
 
-## wercker.yml
+## Examine wercker.yml
 
 First of all take a look at [wercker.yml](wercker.yml) in this directory:
 ``` yml
@@ -170,7 +162,7 @@ Now run the `build` pipeline in `wercker.yml`:
 ```
 wercker build
 ```
-This will build an image using the Dockerfile in this directory, start the newly-created image, test it, and (if the test is successful) and push the it to the image registry.
+This will build an image using the Dockerfile in this directory, start the newly-created image, test it, and (if the test is successful) push the it to the image registry.
 
 ---
 Sign up for Wercker: http://www.wercker.com
