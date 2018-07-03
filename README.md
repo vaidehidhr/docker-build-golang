@@ -67,7 +67,7 @@ This will build an image using the Dockerfile in this directory and apply the ta
 
 Now run the new image and test it
 ```
-docker run --rm -p 5000:5000 $X_USERNAME/docker-build-golang
+docker run --rm -p 5000:5000 my-image
 ```
 This will start your image in the foreground.
 
