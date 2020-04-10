@@ -1,5 +1,5 @@
 build:
-  box: google/golang
+  box: golang
   steps:
     # Test the project
     - script:
